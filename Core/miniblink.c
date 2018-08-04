@@ -20,6 +20,12 @@
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 
+static void delay (uint32_t ms) {
+    ms *= 1440; // 3360=168MHz, 1440=72MHz
+    while (ms--)
+        __asm__("nop");
+}
+
 static void gpio_setup(void)
 {
 	/* Enable GPIOC clock. */
@@ -39,7 +45,7 @@ static void gpio_setup(void)
 
 int main(void)
 {
-	int i;
+	//int i;
 
 	gpio_setup();
 
@@ -63,8 +69,7 @@ int main(void)
 
 		/* Using API function gpio_toggle(): */
 		gpio_toggle(GPIOC, GPIO13);	/* LED on/off */
-		for (i = 0; i < 800000; i++)	/* Wait a bit. */
-			__asm__("nop");
+        delay(200);
 	}
 
 	return 0;
