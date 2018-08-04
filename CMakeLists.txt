@@ -44,3 +44,7 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
         COMMAND ${CMAKE_OBJCOPY} -Obinary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
         COMMENT "Building ${HEX_FILE}
 Building ${BIN_FILE}")
+
+add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
+        COMMENT "Invoking: Cross ARM GNU Print Size"
+        COMMAND ${SIZE} ${PROJECT_NAME}.elf)
