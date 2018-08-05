@@ -39,6 +39,10 @@ set(BIN_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin)
 add_executable(${PROJECT_NAME}.elf ${USER_SOURCES})
 target_link_libraries(${PROJECT_NAME}.elf opencm3_stm32f1)
 
+add_custom_command(TARGET ${PROJECT_NAME}.elf PRE_BUILD
+        COMMAND make -j1 WORKING_DIRECTORY ${LIBOPENCM3_DIR}
+        COMMENT "Building libopencm3")
+
 add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
         COMMAND ${CMAKE_OBJCOPY} -Oihex $<TARGET_FILE:${PROJECT_NAME}.elf> ${HEX_FILE}
         COMMAND ${CMAKE_OBJCOPY} -Obinary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
